@@ -1,43 +1,26 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import { ReactDOM } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const API_URL = `https://api.kanye.rest/`
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+const App = () => {
+  const [kanye, setKanye] = useState('')
+
+  const apiRequest = async () => {
+    await fetch(API_URL)
+      .then((res) => res.json())
+      .then((res) => JSON.stringify(res))
+      .then((res) => setKanye(res))
+  }
+
+  useEffect(() => {
+    apiRequest()
+  }, [])
+
+  return(
+    kanye.length > 0 &&
+    <div>
+      <p>{ kanye }</p>
     </div>
   )
 }
